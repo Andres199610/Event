@@ -1,5 +1,7 @@
 ﻿using Event.API.Data;
+using Event.Shared.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Event.API.Controllers
 {
@@ -18,6 +20,26 @@ namespace Event.API.Controllers
         _context = context;
         }
 
+        [HttpGet]
+        public async Task < ActionResult> Get() {
+
+            return Ok(await _context.Academics.ToListAsync());
+        
+        
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Post(Academic academic)
+        {
+
+            _context.Add(academic);
+            await _context.SaveChangesAsync();
+            return Ok(academic);
+
+
+
+
+        }
 
     }
 }
