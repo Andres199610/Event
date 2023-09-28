@@ -1,0 +1,67 @@
+﻿@page "/academics"
+
+@using Event.Shared.Entities;
+@using Event.WEB.Repositories;
+
+@inject IRepository repository
+
+
+
+
+<h3>Academico</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/academics/create">Nuevo academico</a>
+</div>
+
+
+  <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Academico</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var academic in Academics!)
+                {
+                    <tr>
+                        <td>
+                        @academic.Name
+                        </td>
+                        <td>
+                        <a  class="btn btn-warning">Editar</a>
+                        <button class="btn btn-danger">Borrar</button>
+
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </Body>
+
+
+  
+
+
+
+
+@code {
+    public List<Academic>? Academics { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await Load();
+    }
+
+    private async Task Load()
+    {
+        var responseHppt = await repository.Get<List<Academic>>("api/academics");
+        Academics = responseHppt.Response!;
+    }
+    
+}

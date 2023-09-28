@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Event.Shared", "Event.Shared\Event.Shared.csproj", "{DA04C831-89F7-4546-9393-E21B0EA0EB04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Event.Shared", "Event.Shared\Event.Shared.csproj", "{DA04C831-89F7-4546-9393-E21B0EA0EB04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Event.API", "Event.API\Event.API.csproj", "{A25273FB-7250-4A8F-A413-0F43DF15E209}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Event.API", "Event.API\Event.API.csproj", "{A25273FB-7250-4A8F-A413-0F43DF15E209}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Event.WEB", "Event.WEB\Event.WEB.csproj", "{96AB32EE-7784-47DD-B37C-F21CF0377F5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Event.WEB", "Event.WEB\Event.WEB.csproj", "{96AB32EE-7784-47DD-B37C-F21CF0377F5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
