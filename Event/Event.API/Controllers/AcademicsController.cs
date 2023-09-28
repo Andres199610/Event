@@ -28,6 +28,22 @@ namespace Event.API.Controllers
         
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult> Get(int id)
+        {
+
+            var academic = await
+                _context.Academics.FirstOrDefaultAsync(x => x.Id == id);
+            if (academic == null)
+            {
+
+                return NotFound();
+
+            }
+            return Ok(academic);
+
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post(Academic academic)
         {

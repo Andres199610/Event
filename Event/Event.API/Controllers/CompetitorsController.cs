@@ -28,6 +28,21 @@ namespace Event.API.Controllers
 
 
         }
+        [HttpGet("{id}")]
+        public async Task<ActionResult> Get(int id)
+        {
+
+            var competitor = await
+                _context.Competitors.FirstOrDefaultAsync(x => x.Id == id);
+            if (competitor == null)
+            {
+
+                return NotFound();
+
+            }
+            return Ok(competitor);
+
+        }
 
         [HttpPost]
         public async Task<ActionResult> Post(Competitor competitor)
