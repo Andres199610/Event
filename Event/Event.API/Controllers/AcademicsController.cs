@@ -56,6 +56,32 @@ namespace Event.API.Controllers
 
 
         }
+        [HttpPut]
+        public async Task<ActionResult> Put(Academic academic)
+        {
 
+            _context.Update(academic);
+            await _context.SaveChangesAsync();
+            return Ok(academic);
+
+
+
+
+        }
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+
+            var afectado = await _context.Academics.Where(x => x.Id == id).ExecuteDeleteAsync();
+
+            if (afectado == 0)
+            {
+
+                return NotFound();
+            }
+
+            return NoContent();
+
+        }
     }
 }

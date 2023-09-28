@@ -56,5 +56,33 @@ namespace Event.API.Controllers
 
 
         }
+        [HttpPut]
+        public async Task<ActionResult> Put(Competitor competitor)
+        {
+
+            _context.Update(competitor);
+            await _context.SaveChangesAsync();
+            return Ok(competitor);
+
+
+
+
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+
+            var afectado = await _context.Competitors.Where(x => x.Id == id).ExecuteDeleteAsync();
+
+            if (afectado == 0)
+            {
+
+                return NotFound();
+            }
+
+            return NoContent();
+
+        }
     }
 }
