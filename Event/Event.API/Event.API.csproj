@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Event.Shared\Event.Shared.csproj" />
+    <ProjectReference Include="..\Event.WEB\Event.WEB.csproj" />
   </ItemGroup>
 
 </Project>
