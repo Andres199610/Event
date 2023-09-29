@@ -1,0 +1,36 @@
+﻿@page "/programmings/create"
+
+
+
+@using Event.Shared.Entities;
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Crear Academia</h3>
+
+<ProgrammingForm @ref="programmingForm" Programming="programming" OnSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private Programming programming = new();
+
+    private ProgrammingForm? programmingForm;
+
+    private async Task Create()
+    {
+        var responseHttp = await repository.Post("/api/programmings", programming);
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", message);
+            return;
+        }
+        programmingForm!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo("/programmings");
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/programmings");
+    }
+}

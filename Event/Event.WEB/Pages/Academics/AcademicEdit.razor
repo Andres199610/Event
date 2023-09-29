@@ -1,0 +1,71 @@
+﻿@page "/academics/edit/{Id:int}"
+
+
+@using Event.Shared.Entities;
+@inject NavigationManager navigationManager
+@inject IRepository repository
+@inject SweetAlertService swal
+
+<h3>Editar Academia</h3>
+
+@if (academic is null)
+{
+    <div class="align-items-center">
+        <img src=" https://img.pikbest.com/png-images/20190918/cartoon-snail-loading-loading-gif-animation_2734139.png!bw700 " />
+    </div>
+}
+else
+{
+    <AcademicForm @ref="academicForm" Academic="academic" OnSubmit="Edit" ReturnAction="Return" />
+}
+
+@code {
+    private Academic? academic;
+    private AcademicForm? academicForm;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var responseHTTP = await repository.Get<Academic>($"api/academics/{Id}");
+
+        if (responseHTTP.Error)
+        {
+            if (responseHTTP.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("academics");
+            }
+            else
+            {
+                var messageError = await responseHTTP.GetErrorMessageAsync();
+                await swal.FireAsync("Error", messageError, SweetAlertIcon.Error);
+            }
+        }
+        else
+        {
+            academic = responseHTTP.Response;
+        }
+    }
+
+    private async Task Edit()
+    {
+        var responseHTTP = await repository.Put("api/academics", academic);
+
+        if (responseHTTP.Error)
+        {
+            var mensajeError = await responseHTTP.GetErrorMessageAsync();
+            await swal.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+        }
+        else
+        {
+            academicForm!.FormPostedSuccessfully = true;
+            navigationManager.NavigateTo("academics");
+        }
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("academics");
+    }
+}

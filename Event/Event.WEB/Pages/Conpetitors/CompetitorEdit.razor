@@ -1,0 +1,71 @@
+﻿@page "/competitors/edit/{Id:int}"
+
+
+@using Event.Shared.Entities;
+@inject NavigationManager navigationManager
+@inject IRepository repository
+@inject SweetAlertService swal
+
+<h3>Editar Participante</h3>
+
+@if (competitor is null)
+{
+    <div class="align-items-center">
+        <img src=" https://img.pikbest.com/png-images/20190918/cartoon-snail-loading-loading-gif-animation_2734139.png!bw700 " />
+    </div>
+}
+else
+{
+    <CompetitorForm @ref="competitorForm" Competitor="competitor" OnSubmit="Edit" ReturnAction="Return" />
+}
+
+@code {
+    private Competitor? competitor;
+    private CompetitorForm? competitorForm;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var responseHTTP = await repository.Get<Competitor>($"api/competitors/{Id}");
+
+        if (responseHTTP.Error)
+        {
+            if (responseHTTP.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("competitors");
+            }
+            else
+            {
+                var messageError = await responseHTTP.GetErrorMessageAsync();
+                await swal.FireAsync("Error", messageError, SweetAlertIcon.Error);
+            }
+        }
+        else
+        {
+            competitor = responseHTTP.Response;
+        }
+    }
+
+    private async Task Edit()
+    {
+        var responseHTTP = await repository.Put("api/competitors", competitor);
+
+        if (responseHTTP.Error)
+        {
+            var mensajeError = await responseHTTP.GetErrorMessageAsync();
+            await swal.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+        }
+        else
+        {
+            competitorForm!.FormPostedSuccessfully = true;
+            navigationManager.NavigateTo("competitors");
+        }
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("competitors");
+    }
+}

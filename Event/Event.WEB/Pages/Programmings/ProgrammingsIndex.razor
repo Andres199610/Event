@@ -1,0 +1,67 @@
+﻿@page "/programmings"
+
+@using Event.Shared.Entities;
+@using Event.WEB.Repositories;
+
+@inject IRepository repository
+
+
+
+
+<h3>Programacion</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/programmings/create">Nuevo Programa</a>
+</div>
+
+
+  <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Programacion</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var programming in Programmings!)
+                {
+                    <tr>
+                        <td>
+                        @programming.Name
+                        </td>
+                        <td>
+                        <a  class="btn btn-warning">Editar</a>
+                        <button class="btn btn-danger">Borrar</button>
+
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </Body>
+
+
+  
+
+
+
+
+@code {
+    public List<Programming>? Programmings { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await Load();
+    }
+
+    private async Task Load()
+    {
+        var responseHppt = await repository.Get<List<Programming>>("api/programmings");
+        Programmings = responseHppt.Response!;
+    }
+    
+}

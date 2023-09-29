@@ -1,0 +1,67 @@
+﻿@page "/competitors"
+
+@using Event.Shared.Entities;
+@using Event.WEB.Repositories;
+
+@inject IRepository repository
+
+
+
+
+<h3>Participante</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/academics/create">Nuevo academico</a>
+</div>
+
+
+  <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Participante</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var competitor in Competitors!)
+                {
+                    <tr>
+                        <td>
+                        @competitor.Name
+                        </td>
+                        <td>
+                        <a  class="btn btn-warning">Editar</a>
+                        <button class="btn btn-danger">Borrar</button>
+
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </Body>
+
+
+  
+
+
+
+
+@code {
+    public List<Competitor>? Competitors { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await Load();
+    }
+
+    private async Task Load()
+    {
+        var responseHppt = await repository.Get<List<Competitor>>("api/academics");
+        Competitors = responseHppt.Response!;
+    }
+    
+}
